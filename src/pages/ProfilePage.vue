@@ -6,6 +6,10 @@
       </div>
       <div class="col-md-10 col-12 profileInfo">
         <div>
+
+
+
+
           <img class="profileImg" :src="profile.picture" alt="">
         </div>
         <div class="mx-3">
@@ -19,6 +23,8 @@
       <div class="col-md-3 col-12" v-for="post in profilePosts" :key="post.id">
         <PostCard :post="post" />
       </div>
+      <div>
+      </div>
     </div>
   </div>
 </template>
@@ -26,52 +32,47 @@
 <script>
 import { useRoute } from 'vue-router';
 import Pop from '../utils/Pop.js';
-// import { postsService } from '../services/PostsService.js';
+import { postsService } from '../services/PostsService.js';
 import { profileService } from '../services/ProfileService.js';
 import { computed, onMounted } from 'vue';
 import { AppState } from '../AppState.js';
+
+
 // import { logger } from '../utils/Logger.js';
 
 
 export default {
   setup() {
-    const route = useRoute()
-
+    const route = useRoute();
     async function getProfile() {
       try {
-        const profileId = route.params.profileId
+        const profileId = route.params.profileId;
         // logger.log('route', route)
-        await profileService.getProfile(profileId)
-      } catch (error) {
-        Pop.error(error.message)
+        await profileService.getProfile(profileId);
+      }
+      catch (error) {
+        Pop.error(error.message);
       }
     }
-
     async function getProfilePosts() {
       try {
-        const profileId = route.params.profileId
-        await profileService.getProfilePosts(profileId)
-      } catch (error) {
-        Pop.error(error.message)
+        const profileId = route.params.profileId;
+        await postsService.getProfilePosts(profileId);
       }
-
-
-
+      catch (error) {
+        Pop.error(error.message);
+      }
     }
-
     onMounted(() => {
-      getProfile()
-      getProfilePosts()
+      getProfile();
+      getProfilePosts();
     });
-
-
     return {
       profile: computed(() => AppState.activeProfile),
       profilePosts: computed(() => AppState.posts),
-
       coverImg: computed(() => `url(${AppState.activeProfile?.coverImg})`)
-    }
-  }
+    };
+  },
 }
 </script>
 

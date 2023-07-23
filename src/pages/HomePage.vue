@@ -1,10 +1,12 @@
 <template>
+  <CreatePost :isUserLoggedIn="isUserLoggedIn" />
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-6 col-12" v-for="post in posts" :key="post.id">
         <PostCard :post="post" />
       </div>
     </div>
+
   </div>
 </template>
 
@@ -13,25 +15,28 @@ import { computed, onMounted } from 'vue';
 import Pop from '../utils/Pop.js';
 import { postsService } from '../services/PostsService.js'
 import { AppState } from '../AppState.js';
+import CreatePost from '../components/CreatePost.vue';
 
 export default {
-  setup() {
 
+  setup() {
     async function getPosts() {
       try {
-        await postsService.getPosts()
-      } catch (error) {
-        Pop.error(error)
+        await postsService.getPosts();
+      }
+      catch (error) {
+        Pop.error(error);
       }
     }
-
     onMounted(() => {
-      getPosts()
+      getPosts();
     });
     return {
-      posts: computed(() => AppState.posts)
-    }
-  }
+      posts: computed(() => AppState.posts),
+      isUserLoggedIn: false,
+    };
+  },
+  components: { CreatePost }
 }
 </script>
 

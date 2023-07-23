@@ -15,22 +15,32 @@ class PostsService {
   }
 
   async getProfilePosts(profileId) {
-
     const res = await api.get('api/posts', {
       params: {
         creatorId: profileId,
-
       }
     })
-
     logger.log('[GETTING PROFILE POSTS]', res.data)
-
-    const profilePosts = res.data.map(p => new Post(p))
-    AppState.projects = profilePosts
+    const getProfilePosts = res.data.posts.map(p => new Post(p))
+    AppState.posts = getProfilePosts
   }
 
   setActiveProject(post) {
     AppState.activePost = post
+  }
+
+  async createPost(postData, creatorId) {
+    const res = await api.post('api/posts', postData);
+    logger.log('[CREATED POST]', res.data);
+    const post = new Post(res.data);
+
+
+    AppState.posts.push(post);
+
+
+    if (AppState.activeProfile?.id === creatorId) {
+      AppState.activeProfile.posts.push(post);
+    }
   }
 
 
