@@ -46,7 +46,7 @@ import { profileService } from '../services/ProfileService.js';
 import { computed, onMounted } from 'vue';
 import { AppState } from '../AppState.js';
 import { adsService } from '../services/AdsService.js';
-import { logger } from '../utils/Logger.js';
+// import { logger } from '../utils/Logger.js';
 
 
 
@@ -86,7 +86,7 @@ export default {
       try {
         const ads = await adsService.getAds();
         AppState.ads = ads
-        logger.log('[GETTING ADS]', ads);
+        // logger.log('[GETTING ADS]', ads);
       } catch (error) {
         Pop.error(error.message);
       }

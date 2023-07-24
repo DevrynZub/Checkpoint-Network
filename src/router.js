@@ -27,6 +27,11 @@ const routes = [
     name: 'Profile',
     component: loadPage('ProfilePage')
   },
+  {
+    path: '/search',
+    name: 'Search',
+    component: loadPage('SearchPage')
+  },
 ]
 
 export const router = createRouter({

@@ -82,9 +82,7 @@ export default {
   right: 0;
   bottom: 0;
   width: 600px;
-  /* Adjust the width as needed */
   overflow-y: auto;
-  /* Add scroll if ads exceed the container height */
 }
 
 #ads-container {
