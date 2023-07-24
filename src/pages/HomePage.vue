@@ -81,8 +81,9 @@ export default {
   top: 0;
   right: 0;
   bottom: 0;
-  width: 600px;
+  width: 400px;
   overflow-y: auto;
+  margin-top: 65px;
 }
 
 #ads-container {

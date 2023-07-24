@@ -147,16 +147,23 @@ class PostsService {
   }
 
   clearPosts() {
-    AppState.posts = []
+    AppState.movies = []
+    AppState.page = 0
+    AppState.totalPages = 0
     AppState.query = null
   }
-
-
-
-
-
-
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 export const postsService = new PostsService()

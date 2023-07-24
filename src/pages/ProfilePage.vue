@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid" v-if="profile">
     <div class="row justify-content-center">
-      <div class="col-md-10 col-12 profileCover">
+      <div class="col-md-8 col-12 profileCover">
         <!-- <img :src="profile.coverImg" alt="Cover Image"> -->
       </div>
       <div class="col-md-10 col-12 profileInfo">
@@ -10,9 +10,9 @@
         </div>
         <div class="mx-3">
           <h1>{{ profile.name }}</h1>
-          <span> Graduated: {{ profile.graduated }}</span>
+          <p>Graduated: {{ profile.graduated }}</p>
           <p>Class: {{ profile.class }}</p>
-          <p>{{ profile.bio }}</p>
+          <p>Bio: {{ profile.bio }}</p>
           <a v-if="profile.github" :href="profile.github"><i class="mdi mdi-github fs-1"></i></a>
         </div>
       </div>
@@ -154,6 +154,7 @@ export default {
   bottom: 0;
   width: 250px;
   overflow-y: auto;
+  margin-top: 65px;
 }
 
 #ads-container {
