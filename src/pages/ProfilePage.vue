@@ -169,10 +169,9 @@ export default {
 }
 
 .card {
-  /* You can add styles to customize the card appearance */
   border: 1px solid #ccc;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  /* Add other styles as needed */
+
 }
 </style>

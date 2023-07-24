@@ -41,7 +41,6 @@ export default {
     },
   },
   setup() {
-    // Define comment and postImageUrl using ref
     const comment = ref('');
     const postImageUrl = ref('');
     return {
@@ -51,7 +50,7 @@ export default {
   },
   computed: {
     loggedInUser() {
-      // Simulate retrieving the logged-in user data (replace this with your actual logic)
+
       return this.isUserLoggedIn
         ? {
           name: 'John Doe',

@@ -39,6 +39,7 @@
 import { reactive } from 'vue';
 import { accountService } from '../services/AccountService.js';
 import { logger } from '../utils/Logger.js';
+import Pop from '../utils/Pop.js';
 
 export default {
   setup() {
@@ -58,7 +59,7 @@ export default {
         await accountService.updateAccountInfo(formData);
         logger.log('[GETTING ACCOUNT]', formData)
       } catch (error) {
-        // Handle error feedback if needed
+        Pop.error(error.message)
       }
     }
 
