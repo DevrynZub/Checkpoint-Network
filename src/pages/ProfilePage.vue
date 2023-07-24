@@ -27,6 +27,12 @@
         <div v-for="(ad, index) in ads" :key="index">
           <AdCard :ad="ad" />
         </div>
+        <div v-for="(ad, index) in ads" :key="index">
+          <AdCard :ad="ad" />
+        </div>
+        <div v-for="(ad, index) in ads" :key="index">
+          <AdCard :ad="ad" />
+        </div>
       </div>
     </div>
   </div>
@@ -39,6 +45,8 @@ import { postsService } from '../services/PostsService.js';
 import { profileService } from '../services/ProfileService.js';
 import { computed, onMounted } from 'vue';
 import { AppState } from '../AppState.js';
+import { adsService } from '../services/AdsService.js';
+import { logger } from '../utils/Logger.js';
 
 
 
@@ -73,9 +81,32 @@ export default {
         Pop.error(error.message);
       }
     }
+
+    async function getAds() {
+      try {
+        const ads = await adsService.getAds();
+        AppState.ads = ads
+        logger.log('[GETTING ADS]', ads);
+      } catch (error) {
+        Pop.error(error.message);
+      }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
     onMounted(() => {
       getProfile();
       getProfilePosts();
+      getAds()
     });
     return {
       profile: computed(() => AppState.activeProfile),
@@ -121,7 +152,7 @@ export default {
   top: 0;
   right: 0;
   bottom: 0;
-  width: 300px;
+  width: 250px;
   overflow-y: auto;
 }
 

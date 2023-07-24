@@ -30,7 +30,7 @@ import { AppState } from '../AppState.js';
 import CreatePost from '../components/CreatePost.vue';
 import AdCard from '../components/AdCard.vue';
 import { adsService } from '../services/AdsService.js';
-import { logger } from '../utils/Logger.js';
+// import { logger } from '../utils/Logger.js';
 
 export default {
   components: { CreatePost, AdCard },
@@ -51,7 +51,7 @@ export default {
       try {
         const ads = await adsService.getAds();
         AppState.ads = ads
-        logger.log('[GETTING ADS]', ads);
+        // logger.log('[GETTING ADS]', ads);
       } catch (error) {
         Pop.error(error.message);
       }
