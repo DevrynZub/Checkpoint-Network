@@ -8,9 +8,8 @@ class AdsService {
   async getAds() {
     try {
       const res = await api.get('api/ads');
-      const data = res.data
-      logger.log('[DID I GET Ads?]', data);
-      return data;
+      logger.log('[GETTING ADS]', res.data);
+      return res.data; // Return the fetched ads data
     } catch (error) {
       throw new Error('Failed to fetch ads.');
     }

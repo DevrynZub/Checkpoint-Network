@@ -6,11 +6,6 @@
       </div>
       <div class="col-md-10 col-12 profileInfo">
         <div>
-
-
-
-
-
           <img class="profileImg" :src="profile.picture" alt="">
         </div>
         <div class="mx-3">
@@ -26,10 +21,14 @@
       <div class="col-md-3 col-12" v-for="post in profilePosts" :key="post.id">
         <PostCard :post="post" />
       </div>
-      <div>
+    </div>
+    <div>
+      <div class="card col-md-4 col-12" id="ads-container">
+        <div v-for="(ad, index) in ads" :key="index">
+          <AdCard :ad="ad" />
+        </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -46,10 +45,13 @@ import { AppState } from '../AppState.js';
 
 
 
+
+
 export default {
 
   setup() {
     const route = useRoute();
+
 
 
     async function getProfile() {
@@ -71,22 +73,17 @@ export default {
         Pop.error(error.message);
       }
     }
-
-
-
     onMounted(() => {
       getProfile();
       getProfilePosts();
-
     });
     return {
       profile: computed(() => AppState.activeProfile),
       profilePosts: computed(() => AppState.posts),
       coverImg: computed(() => `url(${AppState.activeProfile?.coverImg})`),
-
+      ads: computed(() => AppState.ads),
     };
   },
-
 }
 
 </script>
@@ -112,5 +109,25 @@ export default {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+
+#ads-container {
+  padding-left: 5px;
+}
+
+#ads-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 300px;
+  overflow-y: auto;
+}
+
+#ads-container {
+  background-color: black;
+  border-left: 1px srgb(2, 2, 2)dd;
+  color: white;
 }
 </style>

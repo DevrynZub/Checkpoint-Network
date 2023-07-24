@@ -8,16 +8,16 @@
 
     <form @submit.prevent="submitForm">
       <div>
-        <label for="comment">Comment:</label>
+        <label for="comment"></label>
         <textarea id="comment" v-model="comment" rows="4" cols="50" placeholder="Share your updates here!"
           required></textarea>
       </div>
       <div>
-        <label class="mdi mdi-movie" for="mediaUrl">Video or Picture URL:</label>
-        <input type="text" id="mediaUrl" v-model="postImageUrl" placeholder="Enter the URL for video or picture" />
+        <label class="mdi mdi-movie" for="mediaUrl"></label>
+        <input type="text" id="mediaUrl" v-model="postImageUrl" placeholder="Picture or Video" />
       </div>
       <div class="p-2">
-        <button type="submit">Submit</button>
+        <button class="btn btn-success" type="submit">Submit</button>
       </div>
     </form>
   </div>

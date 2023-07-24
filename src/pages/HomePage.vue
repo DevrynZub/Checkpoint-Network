@@ -2,12 +2,22 @@
   <CreatePost :isUserLoggedIn="isUserLoggedIn" />
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-4 col-12" v-for="post in posts" :key="post.id">
-        <PostCard :post="post" :isUserLoggedIn="isUserLoggedIn" />
+      <div class="col-md-8 col-12">
+        <div v-for="post in posts" :key="post.id">
+          <PostCard :post="post" :isUserLoggedIn="isUserLoggedIn" />
+        </div>
       </div>
-    </div>
-    <div class="row" v-for="(ad, index) in ads" :key="index">
-      <AdCard :ad="ad" />
+      <div class="card col-md-4 col-12" id="ads-container">
+        <div v-for="(ad, index) in ads" :key="index">
+          <AdCard :ad="ad" />
+        </div>
+        <div v-for="(ad, index) in ads" :key="index">
+          <AdCard :ad="ad" />
+        </div>
+        <div v-for="(ad, index) in ads" :key="index">
+          <AdCard :ad="ad" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -36,13 +46,14 @@ export default {
       }
     }
 
+
     async function getAds() {
       try {
-        await adsService.getAds()
-        logger.log('[GETTING ADS]', adsService.ads)
+        const ads = await adsService.getAds();
+        AppState.ads = ads
+        logger.log('[GETTING ADS]', ads);
       } catch (error) {
-        Pop.error(error.message)
-
+        Pop.error(error.message);
       }
     }
 
@@ -54,16 +65,31 @@ export default {
     return {
       posts: computed(() => AppState.posts),
       isUserLoggedIn: false,
-      ads: [],
+      ads: computed(() => AppState.ads),
     };
   },
 }
 </script>
 
 <style scoped lang="scss">
-.cover-img {
-  width: 50%;
-  height: auto;
-  object-fit: cover;
+#ads-container {
+  padding-left: 5px;
+}
+
+#ads-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 600px;
+  /* Adjust the width as needed */
+  overflow-y: auto;
+  /* Add scroll if ads exceed the container height */
+}
+
+#ads-container {
+  background-color: black;
+  border-left: 1px srgb(2, 2, 2)dd;
+  color: white;
 }
 </style>
