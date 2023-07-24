@@ -2,8 +2,8 @@
   <CreatePost :isUserLoggedIn="isUserLoggedIn" />
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-6 col-12" v-for="post in posts" :key="post.id">
-        <PostCard :post="post" />
+      <div class="col-md-4 col-12" v-for="post in posts" :key="post.id">
+        <PostCard :post="post" :isUserLoggedIn="isUserLoggedIn" />
       </div>
     </div>
 

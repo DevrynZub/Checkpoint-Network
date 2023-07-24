@@ -43,6 +43,28 @@ class PostsService {
     }
   }
 
+  async deletePost(postId) {
+
+    const res = await api.delete(`api/posts/${postId}`)
+    logger.log('[REMOVING POST]', res.data)
+    const postIndex = AppState.posts.findIndex(post => post.id == postId)
+    AppState.posts.splice(postIndex, 1)
+  }
+
+  async editPost(postData) {
+    const res = await api.put(`api/posts/${postData.id},`, postData)
+    logger.log('[EDIT POST]', res.data)
+    const post = new Post(res.data)
+    const postIndex = AppState.posts.findIndex(post => post.id == postData.id)
+    AppState.posts.splice(postIndex, 1, post)
+  }
+
+
+
+  setPostToEdit(postToEdit) {
+    AppState.activePost = postToEdit
+  }
+
 
 
 
@@ -51,4 +73,3 @@ class PostsService {
 
 
 export const postsService = new PostsService()
-

@@ -14,6 +14,8 @@
         </div>
         <div class="mx-3">
           <h1>{{ profile.name }}</h1>
+          <span> Graduated: {{ profile.graduated }}</span>
+          <p>Class: {{ profile.class }}</p>
           <p>{{ profile.bio }}</p>
           <a v-if="profile.github" :href="profile.github"><i class="mdi mdi-github fs-1"></i></a>
         </div>
@@ -38,12 +40,18 @@ import { computed, onMounted } from 'vue';
 import { AppState } from '../AppState.js';
 
 
-// import { logger } from '../utils/Logger.js';
+
 
 
 export default {
+
+  components: {
+  },
+
   setup() {
     const route = useRoute();
+
+
     async function getProfile() {
       try {
         const profileId = route.params.profileId;
@@ -63,6 +71,7 @@ export default {
         Pop.error(error.message);
       }
     }
+
     onMounted(() => {
       getProfile();
       getProfilePosts();
@@ -70,10 +79,12 @@ export default {
     return {
       profile: computed(() => AppState.activeProfile),
       profilePosts: computed(() => AppState.posts),
-      coverImg: computed(() => `url(${AppState.activeProfile?.coverImg})`)
+      coverImg: computed(() => `url(${AppState.activeProfile?.coverImg})`),
+
     };
   },
 }
+
 </script>
 
 

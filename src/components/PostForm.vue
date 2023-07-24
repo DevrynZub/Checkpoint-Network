@@ -1,12 +1,10 @@
 <template>
-  <!-- Only show the form if the user is logged in (isUserLoggedIn is true) -->
-  <div v-if="isUserLoggedIn">
-  </div>
+  <p>placeholder</p>
 </template>
 
 
 <script>
-import { defineProps, ref } from 'vue';
+import { ref } from 'vue';
 import Pop from '../utils/Pop.js';
 import { postsService } from '../services/PostsService.js';
 
@@ -19,7 +17,7 @@ export default {
   },
   setup() {
 
-    const props = defineProps(['isUserLoggedIn']);
+
 
     const title = ref('');
     const content = ref('');

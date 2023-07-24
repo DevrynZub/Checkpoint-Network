@@ -2,11 +2,18 @@
 
 export class Post {
   constructor(data) {
-    this.id = data.id
-    this.body = data.body
-    this.creator = data.creator
-    this.creatorId = data.creatorId
-    this.likeIds = data.likeIds
+    this.id = data.id;
+    this.body = data.body;
+    this.creator = data.creator;
+    this.creatorId = data.creatorId;
+    this.likeIds = data.likeIds;
+    this.likes = data.likes;
+    this.createdAt = data.createdAt ? new Date(data.createdAt) : null;
+  }
+
+
+  getFormattedCreatedAt() {
+    return this.createdAt ? this.createdAt.toLocaleString() : "N/A";
   }
 }
 
