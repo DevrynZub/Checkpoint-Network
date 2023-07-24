@@ -14,7 +14,7 @@
       </div>
       <div>
         <label class="mdi mdi-movie" for="mediaUrl">Video or Picture URL:</label>
-        <input type="text" id="mediaUrl" v-model="mediaUrl" placeholder="Enter the URL for video or picture" />
+        <input type="text" id="mediaUrl" v-model="postImageUrl" placeholder="Enter the URL for video or picture" />
       </div>
       <div class="p-2">
         <button type="submit">Submit</button>
@@ -24,14 +24,25 @@
 </template>
 
 <script>
+import { ref } from 'vue';
 import { postsService } from '../services/PostsService.js';
 import Pop from '../utils/Pop.js';
 
 export default {
-  data() {
+
+  props: {
+    isUserLoggedIn: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  setup() {
+    // Define comment and postImageUrl using ref
+    const comment = ref('');
+    const postImageUrl = ref('');
     return {
-      comment: '',
-      mediaUrl: '',
+      comment,
+      postImageUrl,
     };
   },
   computed: {
@@ -45,35 +56,27 @@ export default {
         : null;
     },
   },
-  props: {
-    isUserLoggedIn: {
-      type: Boolean,
-      required: true,
-    },
-  },
+
   methods: {
-    submitForm() {
+    async submitForm() {
       const postData = {
         body: this.comment,
-        mediaUrl: this.mediaUrl,
+        imgUrl: this.postImageUrl,
       };
 
       this.createPost(postData);
     },
     async createPost(postData) {
       try {
-        // Call your postsService to create a new post using the postData
         await postsService.createPost(postData);
-
-        // Reset the form fields after successful submission
         this.comment = '';
-        this.mediaUrl = '';
+        this.postImageUrl = '';
       } catch (error) {
         Pop.error(error)
       }
     },
   },
-};
+}
 </script>
 
 <style></style>

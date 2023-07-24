@@ -8,9 +8,9 @@ class PostsService {
 
   async getPosts() {
     const res = await api.get(`api/posts`)
-    logger.log('[GETTING POSTS]', res.data)
+    // logger.log('[GETTING POSTS]', res.data)
     const posts = res.data.posts.map(p => new Post(p))
-    logger.log('do I get anything', posts)
+    // logger.log('do I get anything', posts)
     AppState.posts = posts
   }
 
@@ -31,7 +31,7 @@ class PostsService {
 
   async createPost(postData, creatorId) {
     const res = await api.post('api/posts', postData);
-    logger.log('[CREATED POST]', res.data);
+    // logger.log('[CREATED POST]', res.data);
     const post = new Post(res.data);
 
 
@@ -59,10 +59,26 @@ class PostsService {
     AppState.posts.splice(postIndex, 1, post)
   }
 
-
-
   setPostToEdit(postToEdit) {
     AppState.activePost = postToEdit
+  }
+
+  async likePost(postId) {
+    try {
+      const response = await api.post(`/api/posts/${postId}/like`);
+      return response.data;
+    } catch (error) {
+      throw new Error('Failed to like the post.');
+    }
+  }
+
+  async unlikePost(postId) {
+    try {
+      const response = await api.delete(`/posts/${postId}/like`);
+      return response.data;
+    } catch (error) {
+      throw new Error('Failed to unlike the post.');
+    }
   }
 
 

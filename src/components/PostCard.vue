@@ -1,21 +1,37 @@
 <template>
-  <div v-if="post" class="card mb-2 elevation text-center">
+  <div class="card mb-2 elevation text-center">
     <div class="d-flex align-items-center justify-content-around p-2">
-      <h2><router-link :to="{ name: 'Profile', params: { profileId: post.creatorId } }">
-          <img class="img-fluid profilePicture" :src="post.creator.picture" :alt="post.creator.name"
-            :title="post.creator.name">
-        </router-link> {{ post.creator.name }}</h2>
+      <router-link :to="{ name: 'Profile', params: { profileId: post.creatorId } }">
+        <img class="img-fluid profilePicture" :src="post.creator.picture" :alt="post.creator.name"
+          :title="post.creator.name">
+      </router-link>
+      <h2>{{ post.creator.name }}</h2>
     </div>
     <p>{{ post.body }}</p>
     <p>Created: {{ post.getFormattedCreatedAt() }}</p>
-    <img class="cover-img img-fluid" :src="post.creator.coverImg" alt="">
-
+    <div class="post-card-footer m-1 ps-1 fs-5">
+      <button v-if="!isLikedByUser" @click="likePost">💗</button>
+      <button v-else @click="unlikePost">💔</button>
+      <span class="m-3">{{ post.likes.length }} {{ post.likes.length === 1 ? 'Like' : 'Likes' }}</span>
+    </div>
+    <template v-if="post.hasPicture()">
+      <router-link :to="{ name: 'Profile', params: { profileId: post.creatorId } }">
+        <img class="cover-img img-fluid" :src="post.picture" alt="Post Image" />
+      </router-link>
+    </template>
+    <template v-else>
+      <router-link :to="{ name: 'Profile', params: { profileId: post.creatorId } }">
+        <img class="cover-img img-fluid" :src="post.creator.coverImg" alt="Profile Cover Image" />
+      </router-link>
+    </template>
     <button @click="deletePost()" title="Delete this post" type="button">
       <i class="mdi mdi-delete"></i>
     </button>
-
   </div>
 </template>
+
+
+
 
 
 <script>
@@ -25,51 +41,66 @@ import { Post } from '../models/Post.js';
 import { postsService } from '../services/PostsService.js';
 import { logger } from '../utils/Logger.js';
 import Pop from '../utils/Pop.js';
-import { AppState } from '../AppState.js';
+
 
 export default {
-
   props: {
     post: { type: Post, required: true },
+    isUserLoggedIn: Boolean,
+    loggedInUserId: String,
   },
-
 
   setup(props) {
+    const isLikedByUser = computed(() => {
+      return props.isUserLoggedIn && props.post.likeIds.includes(props.loggedInUserId);
+    });
+
+    const likesCount = computed(() => {
+      return props.post.likes.length;
+    });
+
+
+    async function deletePost() {
+      try {
+        const wantsToDeletePost = await Pop.confirm(`Are you sure you want to delete your ${props.post.body}`);
+        if (!wantsToDeletePost) {
+          return;
+        }
+        const postId = props.post.id;
+        logger.log(postId);
+        await postsService.deletePost(postId);
+      } catch (error) {
+        Pop.error(error.message);
+      }
+    }
+
+    async function likePost() {
+      try {
+        await postsService.likePost(props.post.id);
+        isLikedByUser.value = true;
+      } catch (error) {
+        logger.log(error)('Failed to like the post:', error);
+      }
+    }
+
+    async function unlikePost() {
+      try {
+        await postsService.unlikePost(props.post.id);
+        isLikedByUser.value = false;
+      } catch (error) {
+        logger.log(error)('Failed to unlike the post:', error);
+      }
+    }
 
     return {
-
-      account: computed(() => AppState.account),
-
-      async deletePost() {
-        try {
-          const wantsToDeletePost = await Pop.confirm(`Are you sure you want to delete your ${props.post.body}`)
-          if (!wantsToDeletePost) {
-            return
-          }
-          const postId = props.post.id
-          logger.log(postId)
-          await postsService.deletePost(postId)
-        } catch (error) {
-          Pop.error(error.message)
-        }
-      },
-
-      setPostToEdit() {
-        const postToEdit = props.postProp
-
-        postsService.setPostToEdit(postToEdit)
-
-      },
-
-      setActivePost() {
-
-        postsService.setActivePost(props.post)
-      },
-    }
+      isLikedByUser,
+      deletePost,
+      likesCount,
+      likePost,
+      unlikePost,
+    };
   },
-
-
-}
+};
 </script>
 
 

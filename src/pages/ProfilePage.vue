@@ -2,10 +2,11 @@
   <div class="container-fluid" v-if="profile">
     <div class="row justify-content-center">
       <div class="col-md-10 col-12 profileCover">
-        <!-- <img :src="profile.coverImg" alt=""> -->
+        <!-- <img :src="profile.coverImg" alt="Cover Image"> -->
       </div>
       <div class="col-md-10 col-12 profileInfo">
         <div>
+
 
 
 
@@ -28,6 +29,7 @@
       <div>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -43,10 +45,8 @@ import { AppState } from '../AppState.js';
 
 
 
-export default {
 
-  components: {
-  },
+export default {
 
   setup() {
     const route = useRoute();
@@ -72,9 +72,12 @@ export default {
       }
     }
 
+
+
     onMounted(() => {
       getProfile();
       getProfilePosts();
+
     });
     return {
       profile: computed(() => AppState.activeProfile),
@@ -83,6 +86,7 @@ export default {
 
     };
   },
+
 }
 
 </script>

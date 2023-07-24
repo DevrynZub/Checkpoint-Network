@@ -1,5 +1,4 @@
 
-
 export class Post {
   constructor(data) {
     this.id = data.id;
@@ -9,11 +8,18 @@ export class Post {
     this.likeIds = data.likeIds;
     this.likes = data.likes;
     this.createdAt = data.createdAt ? new Date(data.createdAt) : null;
+    this.picture = data.imgUrl || data.creator.coverImg || null;
+
   }
 
 
   getFormattedCreatedAt() {
     return this.createdAt ? this.createdAt.toLocaleString() : "N/A";
+  }
+
+
+  hasPicture() {
+    return !!this.picture;
   }
 }
 
