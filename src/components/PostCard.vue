@@ -5,8 +5,8 @@
         <img class="img-fluid profilePicture" :src="post.creator.picture" :alt="post.creator.name"
           :title="post.creator.name">
       </router-link>
-      <h2>{{ post.creator.name }}</h2>
     </div>
+    <h2>{{ post.creator.name }}</h2>
     <p>{{ post.body }}</p>
     <p>Created: {{ post.getFormattedCreatedAt() }}</p>
     <div class="post-card-footer m-1 ps-1 fs-5">
@@ -70,7 +70,7 @@ export default {
         logger.log(postId);
         await postsService.deletePost(postId);
       } catch (error) {
-        Pop.error(error.message);
+        Pop.error('[YOU CANT DELETE THIS, THIS NOT YOUR POST]', error.message);
       }
     }
 

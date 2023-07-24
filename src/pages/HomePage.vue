@@ -3,19 +3,21 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-8 col-12">
-        <div v-for="post in posts" :key="post.id">
-          <PostCard :post="post" :isUserLoggedIn="isUserLoggedIn" />
+        <div class="row">
+          <div v-for="post in posts" :key="post.id">
+            <PostCard :post="post" :isUserLoggedIn="isUserLoggedIn" />
+          </div>
         </div>
-      </div>
-      <div class="card col-md-4 col-12" id="ads-container">
-        <div v-for="(ad, index) in ads" :key="index">
-          <AdCard :ad="ad" />
-        </div>
-        <div v-for="(ad, index) in ads" :key="index">
-          <AdCard :ad="ad" />
-        </div>
-        <div v-for="(ad, index) in ads" :key="index">
-          <AdCard :ad="ad" />
+        <div class="card col-md-4 col-12" id="ads-container">
+          <div v-for="(ad, index) in ads" :key="index">
+            <AdCard :ad="ad" />
+          </div>
+          <div v-for="(ad, index) in ads" :key="index">
+            <AdCard :ad="ad" />
+          </div>
+          <div v-for="(ad, index) in ads" :key="index">
+            <AdCard :ad="ad" />
+          </div>
         </div>
       </div>
     </div>

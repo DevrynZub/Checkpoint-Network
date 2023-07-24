@@ -1,37 +1,42 @@
 <template>
   <div class="container-fluid" v-if="profile">
     <div class="row justify-content-center">
-      <div class="col-md-8 col-12 profileCover">
-        <!-- <img :src="profile.coverImg" alt="Cover Image"> -->
-      </div>
-      <div class="col-md-10 col-12 profileInfo">
+      <div class="col-md-8 col-12">
+        <div class="card">
+          <div class="card-body profileCover">
+            <!-- <img :src="profile.coverImg" alt="Cover Image"> -->
+          </div>
+          <div class=" card-body col-md-10 col-12 profileInfo">
+            <div>
+              <img class="profileImg" :src="profile.picture" alt="">
+            </div>
+            <div class="mx-3">
+              <h1>{{ profile.name }}</h1>
+              <p>Graduated: {{ profile.graduated }}</p>
+              <p>Class: {{ profile.class }}</p>
+              <p>Bio: {{ profile.bio }}</p>
+              <p>Email: {{ profile.email }}</p>
+              <a v-if="profile.github" :href="profile.github"><i class="mdi mdi-github fs-1"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-4">
+          <div class="col-md-3 col-12" v-for="post in profilePosts" :key="post.id">
+            <PostCard :post="post" />
+          </div>
+        </div>
         <div>
-          <img class="profileImg" :src="profile.picture" alt="">
-        </div>
-        <div class="mx-3">
-          <h1>{{ profile.name }}</h1>
-          <p>Graduated: {{ profile.graduated }}</p>
-          <p>Class: {{ profile.class }}</p>
-          <p>Bio: {{ profile.bio }}</p>
-          <a v-if="profile.github" :href="profile.github"><i class="mdi mdi-github fs-1"></i></a>
-        </div>
-      </div>
-    </div>
-    <div class="row mt-4">
-      <div class="col-md-3 col-12" v-for="post in profilePosts" :key="post.id">
-        <PostCard :post="post" />
-      </div>
-    </div>
-    <div>
-      <div class="card col-md-4 col-12" id="ads-container">
-        <div v-for="(ad, index) in ads" :key="index">
-          <AdCard :ad="ad" />
-        </div>
-        <div v-for="(ad, index) in ads" :key="index">
-          <AdCard :ad="ad" />
-        </div>
-        <div v-for="(ad, index) in ads" :key="index">
-          <AdCard :ad="ad" />
+          <div class="card col-md-4 col-12" id="ads-container">
+            <div v-for="(ad, index) in ads" :key="index">
+              <AdCard :ad="ad" />
+            </div>
+            <div v-for="(ad, index) in ads" :key="index">
+              <AdCard :ad="ad" />
+            </div>
+            <div v-for="(ad, index) in ads" :key="index">
+              <AdCard :ad="ad" />
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -161,5 +166,13 @@ export default {
   background-color: black;
   border-left: 1px srgb(2, 2, 2)dd;
   color: white;
+}
+
+.card {
+  /* You can add styles to customize the card appearance */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* Add other styles as needed */
 }
 </style>

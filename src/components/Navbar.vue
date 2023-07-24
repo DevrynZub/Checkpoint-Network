@@ -9,14 +9,14 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav me-auto">
+      <ul class="navbar-nav me-auto ">
         <li>
-          <router-link :to="{ name: 'Search' }" class="btn btn-dark text-dark lighten-30 selectable text-uppercase">
+          <router-link :to="{ name: 'Search' }" class="btn btn-dark text-dark lighten-30 selectable text-uppercase m-3">
             Search
           </router-link>
         </li>
         <li>
-          <router-link :to="{ name: 'Account' }" class="btn btn-dark text-dark lighten-30 selectable text-uppercase">
+          <router-link :to="{ name: 'Account' }" class="btn btn-dark text-dark lighten-30 selectable text-uppercase m-3">
             Account
           </router-link>
         </li>
