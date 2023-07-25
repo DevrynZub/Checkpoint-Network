@@ -1,47 +1,33 @@
 <template>
-  <h2 class="mb-3">Page {{ page }} of {{ totalPages }}</h2>
-  <div class="d-flex justify-content-between">
-
-    <button :disabled="page <= 1" class="btn btn-primary" @click="getNewPageOfPosts(page - 1)">Previous
-      Page</button>
-    <button :disabled="page == totalPages" class="btn btn-primary" @click="getNewPageOfPosts(page + 1)">Next
-      Page</button>
-  </div>
+  <section class="row justify-content-around align-items-center">
+    <button :disabled="!newer" @click="changePage(newer)" class="btn btn-primary col-2">newer</button>
+    <div class="col-2 text-center">{{ page }} - {{ totalPages }}</div>
+    <button :disabled="!older" @click="changePage(older)" class="btn btn-primary col-2">older</button>
+  </section>
 </template>
 
-
-<script>
-import { computed } from 'vue';
-import { AppState } from '../AppState.js';
-import Pop from '../utils/Pop.js';
+<script setup>
 import { postsService } from '../services/PostsService.js';
-
-export default {
-  setup() {
-    return {
-      page: computed(() => AppState.page),
-      totalPages: computed(() => AppState.totalPages),
-      async getNewPageOfPosts(pageNumber) {
-        try {
-          const query = AppState.query
-
-          if (!query) {
-            await postsService.getNewPageOfPosts(pageNumber);
-          }
-
-          else {
-            await postsService.getPostsByQueryWithPageNumber(query, pageNumber)
-          }
+import { AppState } from '../AppState.js';
+import { computed } from 'vue';
+import { logger } from '../utils/Logger.js';
+import Pop from '../utils/Pop.js';
 
 
-        }
-        catch (error) {
-          Pop.error(error);
-        }
-      }
-    }
+const newer = computed(() => AppState.newer)
+const older = computed(() => AppState.older)
+const page = computed(() => AppState.page)
+const totalPages = computed(() => AppState.totalPages)
+
+async function changePage(url) {
+  try {
+    logger.log('[getting]]', url)
+    await postsService.getPosts(url)
+  } catch (error) {
+    Pop.error(error)
   }
 }
+
 </script>
 
 

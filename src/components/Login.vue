@@ -25,8 +25,6 @@
               </div>
             </router-link>
 
-
-
             <div class="list-group-item dropdown-item list-group-item-action text-danger selectable" @click="logout">
               <i class="mdi mdi-logout"></i>
               logout
@@ -44,6 +42,7 @@ import { AppState } from '../AppState'
 import { AuthService } from '../services/AuthService'
 export default {
   setup() {
+
     return {
       user: computed(() => AppState.user),
       account: computed(() => AppState.account),

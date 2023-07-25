@@ -17,12 +17,14 @@
               <p>Bio: {{ profile.bio }}</p>
               <p>Email: {{ profile.email }}</p>
               <a v-if="profile.github" :href="profile.github"><i class="mdi mdi-github fs-1"></i></a>
+              <a v-if="profile.linkedin" :href="profile.linkedin"><i class="mdi mdi-linkedin fs-1"></i></a>
+              <a v-if="profile.resume" :href="profile.resume"><i class="mdi mdi-file fs-1"></i></a>
             </div>
           </div>
         </div>
         <div class="row mt-4">
           <div class="col-md-3 col-12" v-for="post in profilePosts" :key="post.id">
-            <PostCard :post="post" />
+            <PostCard :post="post" :isUserLoggedIn="isUserLoggedIn" />
           </div>
         </div>
         <div>
@@ -51,38 +53,31 @@ import { profileService } from '../services/ProfileService.js';
 import { computed, onMounted } from 'vue';
 import { AppState } from '../AppState.js';
 import { adsService } from '../services/AdsService.js';
+import { logger } from '../utils/Logger.js';
 // import { logger } from '../utils/Logger.js';
 
-
-
-
-
-
-
-
 export default {
-
   setup() {
     const route = useRoute();
 
+    // Compute isUserLoggedIn from AppState.user
+    const isUserLoggedIn = computed(() => !!AppState.user);
 
+    // Fetch the profile posts using the profileId
+    async function getProfilePosts(profileId) {
+      try {
+        const res = await postsService.getProfilePosts(profileId);
+        AppState.posts.push(...res); // Append new profile posts to the existing array
+      } catch (error) {
+        logger.log(error);
+      }
+    }
 
     async function getProfile() {
       try {
         const profileId = route.params.profileId;
-        // logger.log('route', route)
         await profileService.getProfile(profileId);
-      }
-      catch (error) {
-        Pop.error(error.message);
-      }
-    }
-    async function getProfilePosts() {
-      try {
-        const profileId = route.params.profileId;
-        await postsService.getProfilePosts(profileId);
-      }
-      catch (error) {
+      } catch (error) {
         Pop.error(error.message);
       }
     }
@@ -90,38 +85,27 @@ export default {
     async function getAds() {
       try {
         const ads = await adsService.getAds();
-        AppState.ads = ads
-        // logger.log('[GETTING ADS]', ads);
+        AppState.ads = ads;
       } catch (error) {
         Pop.error(error.message);
       }
     }
 
-
-
-
-
-
-
-
-
-
-
-
     onMounted(() => {
       getProfile();
-      getProfilePosts();
-      getAds()
+      getProfilePosts(route.params.profileId);
+      getAds();
     });
+
     return {
       profile: computed(() => AppState.activeProfile),
       profilePosts: computed(() => AppState.posts),
       coverImg: computed(() => `url(${AppState.activeProfile?.coverImg})`),
       ads: computed(() => AppState.ads),
+      isUserLoggedIn,
     };
   },
-}
-
+};
 </script>
 
 

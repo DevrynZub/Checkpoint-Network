@@ -24,7 +24,7 @@
         <img class="cover-img img-fluid" :src="post.creator.coverImg" alt="Profile Cover Image" />
       </router-link>
     </template>
-    <button @click="deletePost()" title="Delete this post" type="button">
+    <button v-if="isUserPostCreator" @click="deletePost()" title="Delete this post" type="button">
       <i class="mdi mdi-delete"></i>
     </button>
   </div>
@@ -35,22 +35,24 @@
 
 
 <script>
-
 import { computed } from 'vue';
-import { Post } from '../models/Post.js';
 import { postsService } from '../services/PostsService.js';
 import { logger } from '../utils/Logger.js';
 import Pop from '../utils/Pop.js';
-
+import { AppState } from '../AppState.js';
 
 export default {
   props: {
-    post: { type: Post, required: true },
-    isUserLoggedIn: Boolean,
+    post: { type: Object, required: true },
+    isUserLoggedIn: { type: Boolean, required: true },
     loggedInUserId: String,
   },
 
   setup(props) {
+    const isUserPostCreator = computed(() => {
+      return AppState.user?.id === props.post.creatorId;
+    });
+
     const isLikedByUser = computed(() => {
       return props.isUserLoggedIn && props.post.likeIds.includes(props.loggedInUserId);
     });
@@ -58,7 +60,6 @@ export default {
     const likesCount = computed(() => {
       return props.post.likes.length;
     });
-
 
     async function deletePost() {
       try {
@@ -79,7 +80,7 @@ export default {
         await postsService.likePost(props.post.id);
         isLikedByUser.value = true;
       } catch (error) {
-        logger.log(error)('Failed to like the post:', error);
+        logger.error('Failed to like the post:', error);
       }
     }
 
@@ -88,7 +89,7 @@ export default {
         await postsService.unlikePost(props.post.id);
         isLikedByUser.value = false;
       } catch (error) {
-        logger.log(error)('Failed to unlike the post:', error);
+        logger.error('Failed to unlike the post:', error);
       }
     }
 
@@ -98,10 +99,12 @@ export default {
       likesCount,
       likePost,
       unlikePost,
+      isUserPostCreator,
     };
   },
 };
 </script>
+
 
 
 <style lang="scss" scoped>

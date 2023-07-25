@@ -8,13 +8,13 @@
           <input v-model="formData.name" id="name" type="text" required>
 
           <label for="picture">Profile Picture URL</label>
-          <input v-model="formData.picture" id="picture" type="text" required>
+          <input v-model="formData.picture" id="picture" type="text">
 
           <label for="bio">Bio</label>
           <textarea v-model="formData.bio" id="bio" rows="4"></textarea>
 
           <label for="coverImg">Cover Image URL</label>
-          <input v-model="formData.coverImg" id="coverImg" type="text" required>
+          <input v-model="formData.coverImg" id="coverImg" type="text">
 
           <label for="github">GitHub URL</label>
           <input v-model="formData.github" id="github" type="text">
@@ -26,10 +26,11 @@
           <input v-model="formData.Resume" id="resume" type="text">
 
           <label for="email">Email</label>
-          <input v-model="formData.email" id="email" type="email" required>
+          <input v-model="formData.email" id="email" type="email">
 
           <label for="graduated">Graduated</label>
           <input v-model="formData.graduated" id="graduated" type="checkbox">
+
 
           <label for="class">Class</label>
           <input v-model="formData.class" id="class" type="text">
@@ -42,37 +43,13 @@
 </template>
 
 <script>
-import { computed, popScopeId, reactive, ref } from 'vue';
+import { computed, reactive } from 'vue';
 import { accountService } from '../services/AccountService.js';
 import { logger } from '../utils/Logger.js';
 import Pop from '../utils/Pop.js';
 
 export default {
   setup() {
-
-    const isGraduated = ref(false);
-
-    const isChecked = computed({
-      get: () => isGraduated.value,
-      set: (newValue) => (isGraduated.value = newValue),
-    });
-
-    function convertToBoolean(value) {
-      return value === 'true';
-    }
-
-    async function updateAccountInfo() {
-      try {
-        const graduated = convertToBoolean(isChecked.value);
-
-        await updateAccount({ graduated });
-
-      } catch (error) {
-        Pop.error(error)
-      }
-    }
-
-
     const formData = reactive({
       name: '',
       picture: '',
@@ -80,26 +57,32 @@ export default {
       coverImg: '',
       github: '',
       email: '',
-      graduated: '',
+      graduated: false,
       class: '',
     });
 
+    const isGraduated = computed({
+      get: () => formData.graduated,
+      set: (value) => {
+        formData.graduated = value;
+      },
+    });
 
     async function updateAccount() {
       try {
+        // Update the graduated value to a boolean before sending the form data
+        formData.graduated = isGraduated.value;
+
         await accountService.updateAccountInfo(formData);
-        logger.log('[GETTING ACCOUNT]', formData)
+        logger.log('[GETTING ACCOUNT]', formData);
       } catch (error) {
-        Pop.error(error.message)
+        Pop.error(error.message);
       }
     }
-
     return {
       formData,
       updateAccount,
       isGraduated,
-      isChecked,
-      updateAccountInfo,
     };
   },
 };

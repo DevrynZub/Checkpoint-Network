@@ -13,6 +13,8 @@ export const AppState = reactive({
   page: 0,
   totalPages: 0,
   query: null,
+  newer: null,
+  older: null,
 
   /** @type {import('./models/Profile.js')Profile|.null} */
   activeProfile: null,

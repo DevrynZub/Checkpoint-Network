@@ -18,7 +18,7 @@ class PostsService {
 
   async getNextPageOfPosts() {
     const res = await api.get(`api/posts/?page=${AppState.page + 1}`)
-    logger.log('[got next page of movies]', res.data)
+    logger.log('[got next page of posts]', res.data)
     const posts = res.data.posts.map(postPojo => new Post(postPojo))
 
     AppState.posts = posts
@@ -28,7 +28,7 @@ class PostsService {
     AppState.totalPages = res.data.total_pages
   }
 
-  async getNewPageOfMovies(pageNumber) {
+  async getNewPageOfPosts(pageNumber) {
     const res = await api.get(`api/posts/?page=${pageNumber}`)
     logger.log('[got next page of posts]', res.data)
 
@@ -96,7 +96,7 @@ class PostsService {
 
   async createPost(postData, creatorId) {
     const res = await api.post('api/posts', postData);
-    // logger.log('[CREATED POST]', res.data);
+    logger.log('[CREATED POST]', res.data);
     const post = new Post(res.data);
 
 
@@ -147,7 +147,7 @@ class PostsService {
   }
 
   clearPosts() {
-    AppState.movies = []
+    AppState.posts = []
     AppState.page = 0
     AppState.totalPages = 0
     AppState.query = null

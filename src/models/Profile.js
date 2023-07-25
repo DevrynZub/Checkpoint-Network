@@ -8,9 +8,11 @@ export class Profile {
     this.bio = data.bio
     this.coverImg = data.coverImg
     this.github = data.github ? data.github : 'https://images.unsplash.com/photo-1555685812-4b943f1cb0eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80'
-    this.email = data.email
-    this.graduated = data.graduated || 'No'
-    this.class = data.class || 'No'
+    this.linkedin = data.linkedin
+    this.resume = data.resume ? data.resume : 'https://images.unsplash.com/photo-1555685812-4b943f1cb0eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+      this.email = data.email
+    this.graduated = data.graduated
+    this.class = data.class || ''
   }
 
 

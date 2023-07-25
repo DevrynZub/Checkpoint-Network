@@ -3,11 +3,6 @@
     <div class="row">
       <div class="col-md-8">
         <h1>Create Post</h1>
-        <div v-if="isUserLoggedIn">
-          <img class="userProfileImg" :src="loggedInUser.picture" :alt="loggedInUser.name" />
-          <p>{{ loggedInUser.name }}</p>
-        </div>
-
         <form @submit.prevent="submitForm">
           <div>
             <label for="comment"></label>
@@ -31,6 +26,7 @@
 import { ref } from 'vue';
 import { postsService } from '../services/PostsService.js';
 import Pop from '../utils/Pop.js';
+import { logger } from '../utils/Logger.js';
 
 export default {
 
@@ -53,8 +49,8 @@ export default {
 
       return this.isUserLoggedIn
         ? {
-          name: 'John Doe',
-          picture: 'path/to/user_picture.jpg',
+          name: '',
+          picture: ''
         }
         : null;
     },
@@ -75,7 +71,9 @@ export default {
         this.comment = '';
         this.postImageUrl = '';
       } catch (error) {
-        Pop.error(error)
+        // Handle the error using your custom logger
+        logger.log('[Error while creating post]', error);
+        // Or simply ignore the error if you don't want to log it
       }
     },
   },

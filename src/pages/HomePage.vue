@@ -32,12 +32,13 @@ import { AppState } from '../AppState.js';
 import CreatePost from '../components/CreatePost.vue';
 import AdCard from '../components/AdCard.vue';
 import { adsService } from '../services/AdsService.js';
-// import { logger } from '../utils/Logger.js';
 
 export default {
   components: { CreatePost, AdCard },
 
+
   setup() {
+    const isUserLoggedIn = computed(() => !!AppState.user);
 
     async function getPosts() {
       try {
@@ -66,11 +67,13 @@ export default {
     });
     return {
       posts: computed(() => AppState.posts),
-      isUserLoggedIn: false,
+      isUserLoggedIn,
       ads: computed(() => AppState.ads),
+
     };
   },
 }
+
 </script>
 
 <style scoped lang="scss">
