@@ -60,14 +60,14 @@ export default {
   setup() {
     const route = useRoute();
 
-    // Compute isUserLoggedIn from AppState.user
+
     const isUserLoggedIn = computed(() => !!AppState.user);
 
-    // Fetch the profile posts using the profileId
+
     async function getProfilePosts(profileId) {
       try {
         const res = await postsService.getProfilePosts(profileId);
-        AppState.posts.push(...res); // Append new profile posts to the existing array
+        AppState.posts.push(...res);
       } catch (error) {
         logger.log(error);
       }

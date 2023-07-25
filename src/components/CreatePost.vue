@@ -25,7 +25,7 @@
 <script>
 import { ref } from 'vue';
 import { postsService } from '../services/PostsService.js';
-import Pop from '../utils/Pop.js';
+// import Pop from '../utils/Pop.js';
 import { logger } from '../utils/Logger.js';
 
 export default {
@@ -71,9 +71,7 @@ export default {
         this.comment = '';
         this.postImageUrl = '';
       } catch (error) {
-        // Handle the error using your custom logger
         logger.log('[Error while creating post]', error);
-        // Or simply ignore the error if you don't want to log it
       }
     },
   },

@@ -70,7 +70,6 @@ export default {
 
     async function updateAccount() {
       try {
-        // Update the graduated value to a boolean before sending the form data
         formData.graduated = isGraduated.value;
 
         await accountService.updateAccountInfo(formData);
